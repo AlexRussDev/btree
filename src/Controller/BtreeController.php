@@ -21,7 +21,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class BtreeController extends AbstractController
 {
 
-
     #[Route('/api/btree', name: 'btree_gettree', methods: ['GET'])]
     function getTree(EntityManagerInterface $entityManager): Response
     {
@@ -39,6 +38,7 @@ class BtreeController extends AbstractController
 
         return $this->json($nodeData);
     }
+
 
     #[Route('/api/btree/addnode/{guid}', name: 'btree_addnode', methods: ['POST'])]
     function addNode(EntityManagerInterface $entityManager, Request $request): Response
