@@ -49,7 +49,8 @@ class BtreeController extends AbstractController
         }
 
         $treeData = BtreeCommon::getNewTreeStructure($entityManager, $request->get('guid'), json_decode($newNodeData, true));
-        $treeData = BtreeCommon::updateTreeData($entityManager, $treeData);
-        return $this->json($treeData);
+        BtreeCommon::updateTreeData($entityManager, $treeData);
+
+        return new Response("OK");
     }
 }
