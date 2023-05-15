@@ -20,7 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BtreeController extends AbstractController
 {
-    
+
 
     #[Route('/api/btree', name: 'btree_gettree', methods: ['GET'])]
     function getTree(EntityManagerInterface $entityManager): Response
@@ -43,13 +43,13 @@ class BtreeController extends AbstractController
     #[Route('/api/btree/addnode/{guid}', name: 'btree_addnode', methods: ['POST'])]
     function addNode(EntityManagerInterface $entityManager, Request $request): Response
     {
-        if ($newNodeData = json_decode($request->get('nodedata'), true)) {
-            $treeData = BtreeCommon::getNewTreeStructure($entityManager, $request->get('guid'), $newNodeData);
-            if (!$treeData)
-                return $this->json(['error' => 'Aborting... Unable to insert a node']);
-            $treeData = BtreeCommon::updateTreeData($entityManager, $treeData);
-            return $this->json($treeData);
+        $newNodeData = $request->get('nodedata');
+        if (!$newNodeData) {
+            return $this->json(['error' => 'Aborting... Please make sure that node data is present...']);
         }
-        return $this->json(['error' => 'Aborting... Something went wrong...']);
+
+        $treeData = BtreeCommon::getNewTreeStructure($entityManager, $request->get('guid'), json_decode($newNodeData, true));
+        $treeData = BtreeCommon::updateTreeData($entityManager, $treeData);
+        return $this->json($treeData);
     }
 }
