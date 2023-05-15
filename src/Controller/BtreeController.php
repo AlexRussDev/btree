@@ -20,8 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BtreeController extends AbstractController
 {
-    const BTREE_ID = 'BTREEGUID';
-
+    
 
     #[Route('/api/btree', name: 'btree_gettree', methods: ['GET'])]
     function getTree(EntityManagerInterface $entityManager): Response
