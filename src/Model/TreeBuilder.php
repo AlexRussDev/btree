@@ -7,7 +7,7 @@ use Doctrine\DBAL\Connection;
 class TreeBuilder
 {
     private Connection $_connection;
-    private Array $_nodeInfo = ['parent'=> [], 'sibling' => [], 'children' => [], 'null'=> []];
+    private Array $_nodeInfo = ['parent'=> [], 'sibling' => [], 'children' => [], 'unrelated'=> []];
 
 
     public function __construct(Connection $connection)
@@ -68,7 +68,7 @@ class TreeBuilder
     public function RetrieveNodeInfo(string $guid): TreeBuilder
     {
         if ($data = $this->GetTreeNodeData($guid)){
-            $this->_nodeInfo['null'] =  array_slice($data, 1, count($data));
+            $this->_nodeInfo['unrelated'] =  array_slice($data, 1, count($data));
             foreach($data as $row){
                
                 //fetch parents
@@ -114,7 +114,7 @@ class TreeBuilder
         $result = [];
         foreach($this->_nodeInfo as $relation => $data){
            foreach($data as $row){
-            $result[] = ['property' => $row['name'], 'relation' => $relation === 'null' ? null : $relation]; 
+            $result[] = ['property' => $row['name'], 'relation' => $relation === 'unrelated' ? null : $relation]; 
            }
         }
 
