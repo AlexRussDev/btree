@@ -70,6 +70,10 @@ class BtreeController extends BtreeAbstarctController
     {
         try {
             $this->validateRequest($request);
+            $sharedGuid = $request->get('sharedguid');
+            if (!$sharedGuid) {
+                throw New \InvalidArgumentException('Please make sure that shared node guid is present...');
+            }
             if (!$this->_TreeBuilder->AddTreeNode($request->get('guid'), $request->get('sharedguid'), $request->get('title'), true))
                 throw new UnexpectedResultException('Unable to create a shared node for some reason.');
             
