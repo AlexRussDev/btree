@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Btree example. 
+ * 
+ * @author Aleksandr Russakov <russakov.aleksandr@gmail.com>
+ */
+
 namespace App\Model;
 use Doctrine\DBAL\Connection;
 
@@ -84,10 +90,14 @@ class TreeBuilder
                     $stmt = $this->_connection->prepare($sql);
                     $stmt->bindValue(1, $parent['guid']);
                     $stmt->bindValue(2, $row['guid']);
-                    $this->_nodeInfo['sibling'][] = $stmt->executeQuery()->fetchAssociative();
+                    if ($result = $stmt->executeQuery()->fetchAssociative()){
+                        $this->_nodeInfo['sibling'][] = $result;
+                    }
+                    
                     unset($stmt);
+                    $this->_nodeInfo['parent'][] = $parent;
                 }
-                $this->_nodeInfo['parent'][] = $parent;
+                
                
                 //fetch childrens
                 if ((int)$row['hasChildren'] > 0){
@@ -95,7 +105,9 @@ class TreeBuilder
                     $stmt = $this->_connection->prepare($sql);
                     $stmt->bindValue(1, $row['l']);
                     $stmt->bindValue(2, $row['r']);
-                    $this->_nodeInfo['children'][] = $stmt->executeQuery()->fetchAssociative();
+                    if ($result = $stmt->executeQuery()->fetchAssociative()){
+                        $this->_nodeInfo['children'][] = $result;
+                    }
                     unset($stmt);
                 }
 

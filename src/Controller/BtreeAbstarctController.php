@@ -31,17 +31,18 @@ abstract class BtreeAbstarctController extends AbstractController
         $sql = [];
 
         $sql[] = "CREATE TABLE IF NOT EXISTS `tree` (
-            `_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-            `guid` varchar(11) NOT NULL,
-            `parentguid` varchar(11) DEFAULT NULL,
-            `name` varchar(100) NOT NULL DEFAULT '',
-            `l` int(11) DEFAULT NULL,
-            `r` int(11) DEFAULT NULL,
-            PRIMARY KEY (`_id`),
-            KEY `guid_ix` (`guid`),
-            KEY `l_ix` (`l`),
-            KEY `r_ix` (`r`)
-          ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4";
+          `_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+          `guid` varchar(11) NOT NULL,
+          `parentguid` varchar(11) DEFAULT NULL,
+          `name` varchar(100) NOT NULL DEFAULT '',
+          `l` int(11) DEFAULT NULL,
+          `r` int(11) DEFAULT NULL,
+          PRIMARY KEY (`_id`),
+          KEY `guid_ix` (`guid`),
+          KEY `l_ix` (`l`),
+          KEY `r_ix` (`r`),
+          KEY `parentguid_ix` (`parentguid`)
+        ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4";
 
         $sql[] = "DROP PROCEDURE IF EXISTS `ADDTREENODE`;
         CREATE DEFINER=`root`@`localhost` PROCEDURE `ADDTREENODE`(IN _targetGuid CHAR(11), IN _newGuid CHAR(11), IN _name CHAR(100), INOUT RESULT INT(1))

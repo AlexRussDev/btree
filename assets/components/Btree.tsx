@@ -4,7 +4,6 @@ import axios from 'axios';
 import { nanoid } from 'nanoid';
 import { CustomizedTreeView, StyledTreeItem } from './TreeView';
 import React from 'react';
-import TreeItem from '@mui/lab/TreeItem';
 
 const API_URL = 'http://127.0.0.1:8000/api/';
 
@@ -27,20 +26,21 @@ export const Btree = (props: any) => {
  
 
 
- const RecursiveComponent = ({ data }: any) => {
+ const RecursiveComponent = ({ data, parentGuid }: any) => {
+  
+  const activeNodeData = data.filter((element: any) => element.parentguid == parentGuid)
   return (
     <React.Fragment key={nanoid(11)}>
-      {data.map(([key, value]: any) => {
+      {Object.entries(activeNodeData).map(([_, item]: any) => {
+      
          return (
           <React.Fragment key={nanoid(11)}>
-            {value && typeof(value) === 'object' &&
-            <StyledTreeItem key={nanoid(11)} nodeId={key} label={key} >
-              { <RecursiveComponent key={nanoid(11)} data={Object.entries(value)} />}
+            {typeof(activeNodeData) !== 'undefined' && item.hasChildren > 0 ?
+            (
+            <StyledTreeItem key={nanoid(11)} nodeId={item.guid} label={item.name} >
+              { <RecursiveComponent key={nanoid(11)} data={ data} parentGuid={item.guid}/>}
               </StyledTreeItem>
-            }
-            {value && typeof(value) === 'string' &&
-            
-            <TreeItem key={nanoid(11)} nodeId={key + '_' + nanoid(3)} label={value} icon={null} />
+              ) : (<StyledTreeItem key={nanoid(11)} nodeId={item.guid + '_' + nanoid(3)} label={item.name} />)
             }
           </React.Fragment>
         );
@@ -49,5 +49,5 @@ export const Btree = (props: any) => {
   );
 };
 
-  return (<div style={props.style}><CustomizedTreeView key={nanoid(11)} children={RecursiveComponent({data: Object.entries(btreeData)})}></CustomizedTreeView></div>);
+  return (<div style={props.style}><CustomizedTreeView key={nanoid(11)} children={RecursiveComponent({data: btreeData, parentGuid: null})}></CustomizedTreeView></div>);
 }

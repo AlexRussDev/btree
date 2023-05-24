@@ -8,9 +8,6 @@
 
 namespace App\Controller;
 
-use \App\Common\Btree as BtreeCommon;
-
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\UnexpectedResultException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +25,7 @@ class BtreeController extends BtreeAbstarctController
     {
         $this->_TreeBuilder = new TreeBuilder($connection);
     }
+
 
     #[Route('/api/btree', name: 'btree_gettree', methods: ['GET'])]
     function getTree(): Response
@@ -66,6 +64,7 @@ class BtreeController extends BtreeAbstarctController
         }
     }
 
+
     #[Route('/api/btree/addsharednode', name: 'btree_addsharednode', methods: ['POST'])]
     function addSharedNode(Request $request): Response
     {
@@ -79,6 +78,7 @@ class BtreeController extends BtreeAbstarctController
             return $this->json(['error' => 'Aborting... ' . $e->getMessage()], 400);
         }
     }
+
 
     #[Route('/api/createroutines', name: 'btree_createroutines', methods: ['GET'])]
     function createRoutines(Connection $connection): Response
