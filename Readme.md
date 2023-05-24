@@ -8,6 +8,7 @@ BTREE sample
 
 
 INTERNAL API ENDPOINTS
+
 #1. http://127.0.0.1:8000/api/btree - returns the tree data
 
 #2. http://127.0.0.1:8000/api/btree/getnodeinfo - returns node info
